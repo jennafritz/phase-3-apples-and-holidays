@@ -18,6 +18,7 @@ def second_supply_for_fourth_of_july(holiday_hash)
   #   }
   # }
   # return the second element in the 4th of July array
+  holiday_hash[:summer][:fourth_of_july][1]
 end
 
 def add_supply_to_winter_holidays(holiday_hash, supply)
@@ -25,24 +26,40 @@ def add_supply_to_winter_holidays(holiday_hash, supply)
   # add the second argument, which is a supply, to BOTH the
   # Christmas AND the New Year's arrays
 
+  # holiday_hash[:winter].each do |holiday, supplies_array|
+  #   holiday[1] << supply
+  # end
+
+  holiday_hash[:winter].values.each do |supplies|
+    supplies << supply
+  end
 end
+# ^ why does "holiday" return an array with elements  [:christmas, ["Lights, Wreath"]] ??
+# just a Ruby thing
+# can add second into pipes to break up holiday and supplies
 
 
 def add_supply_to_memorial_day(holiday_hash, supply)
   # again, holiday_hash is the same as the ones above
   # add the second argument to the memorial day array
-
+  holiday_hash[:spring][:memorial_day] << supply
 end
 
 def add_new_holiday_with_supplies(holiday_hash, season, holiday_name, supply_array)
   # code here
   # remember to return the updated hash
-
+  holiday_hash[season][holiday_name] = supply_array
+  holiday_hash
 end
 
 def all_winter_holiday_supplies(holiday_hash)
   # return an array of all of the supplies that are used in the winter season
-
+  winter = holiday_hash[:winter]
+  winter_supplies = []
+  winter.values.each do |supplies|
+    winter_supplies += supplies
+  end
+  winter_supplies
 end
 
 def all_supplies_in_holidays(holiday_hash)
@@ -53,7 +70,25 @@ def all_supplies_in_holidays(holiday_hash)
   # Summer:
   #   Fourth Of July: Fireworks, BBQ
   # etc.
-
+  holiday_hash.keys.each do |season|
+    season_name = season.to_s
+    split_season = season_name.split(" ")
+    split_season.each do |word|
+      word.capitalize!
+    end
+    capital_season = split_season.join(" ")
+    puts "#{capital_season}:"
+    holiday_hash[season].each do |holiday, supplies|
+      holiday_name = holiday.to_s
+      split_holiday = holiday_name.split(" ")
+      split_holiday.each do |word|
+        word.capitalize!
+      end
+      capital_holiday = split_holiday.join(" ")
+      puts "#{capital_holiday}:"
+      binding.pry
+    end
+  end
 end
 
 def all_holidays_with_bbq(holiday_hash)
